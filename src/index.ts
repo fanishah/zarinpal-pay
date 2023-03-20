@@ -2,8 +2,8 @@ import axios from "axios";
 
 interface CreateType {
   amount: number;
-  description: string;
   callback_url: string;
+  description?: string;
   mobile?: string;
   email?: string;
 }
@@ -68,16 +68,19 @@ class zarinpal_payment {
         callback_url,
         metadata: [mobile, email],
       });
+      if (data.errors) {
+        return data.errors
+      }
       return {
         data: {
           ...data.data,
           link: `${this._gateway}/${data.data.authority}`,
         },
-        errors: [...data.errors],
+        errors: data.errors,
       };
-    } catch (err) {
+    } catch (err:any) {
       console.log(err);
-      console.log("============= err =============");
+      console.log("============= Error =============");
     }
   }
   async verify({ authority, amount }: VerifyType) {
@@ -113,3 +116,18 @@ class zarinpal_payment {
 }
 
 export default zarinpal_payment;
+
+const ss = new zarinpal_payment("5c2aca12-5b06-11e9-a7f1-000c295eb8fc")
+  .create({
+    amount: 20,
+    callback_url: "sss",
+    description: "s",
+  })
+  .then((ww) => {
+    console.log(ww);
+  })
+  .catch((err) => {
+    console.log(err);
+    console.log("========err=========");
+  });
+  

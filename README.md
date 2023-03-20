@@ -22,7 +22,7 @@ npm i zarinpal-payment
 ```
 create() // ایجاد تراکنش
 verify() // تایید تراکنش
-unverified() // استعلام آخرین وضعیت تراکنش
+unverified() // ليست پرداخت هاي موفق اخیر
 ```
 
   <div dir="rtl">
@@ -113,11 +113,9 @@ try{
 
 ```
 {
-  status: 406
-  data:{
-    "error_code": 32,
-    "error_message": ".نباید خالی باشد `order_id` مقدار"
-  }
+  code: -9,
+  message: 'The input params invalid, validation error.',
+  validations: [ { amount: 'The amount must be at least 1000.' } ]
 }
 ```
 
@@ -141,7 +139,15 @@ try{
 </div>
 
 ```
-const verifypay = await zarinpal.verify(amount, authority);
+try{
+
+  const verifypay = await zarinpal.verify(amount, authority);
+
+}catch (err) {
+
+	console.log(err);
+
+}
 ```
 
 <div dir="rtl">
@@ -196,5 +202,65 @@ const verifypay = await zarinpal.verify(amount, authority);
 <div dir="rtl">
 ** مهم : ** 
 درصورت موفقیت آمیز بودن تراکنش، با فراخوانی متد verify، یکبار کد مقدار code  برابر با 100 می باشد و در دفعات بعدی وریفای همان تراکنش مقدار code  برابر با 101 می باشد.
-کد code 101 به معنای آن است که تراکنش موفق بوده و یکبار قبلا وریفای شده است و این بار دوم هست
  </div>
+<div dir="rtl">
+
+کد code 101 به معنای آن است که تراکنش موفق بوده و یکبار قبلا وریفای شده است و این بار دوم هست
+
+</div>
+ 
+<div dir="rtl">
+
+# متد unverified
+
+ممكن است شما نياز داشته باشيد كه متوجه شويد چه پرداخت هاي توسط وب سرويس شما به درستي انجام شده اما متد verify روي آنها اعمال نشده ، به عبارت ديگر اين متد ليست پرداخت هاي موفقي كه شما آنها را تصديق نكرده ايد را به شما نمايش مي دهد.
+
+</div>
+```
+try{
+
+  const unVerified = await zarinpal.unverified();
+
+}catch (err) {
+
+	console.log(err);
+  
+}
+```
+
+
+<p align="right">
+نمونه اطلاعات بازگشتی :
+</p>
+
+```
+{
+    "data": {
+        "code": "100",
+        "message": "Success",
+        "authorities": [
+            {
+                "authority": "A00000000000000000000000000207288780",
+                "amount": 50500,
+                "callback_url": "https://golroz.com/vpay",
+                "referer": "https://golroz.com/test-form/",
+                "date": "2020-07-01 17:33:25"
+            },
+            {
+                "authority": "A00000000000000000000000000207296503",
+                "amount": 50500,
+                "callback_url": "https://golroz.com/vpay",
+                "referer": "https://golroz.com/test-form/",
+                "date": "2020-07-01 18:58:32"
+            },
+            {
+                "authority": "A00000000000000000000000000206873220",
+                "amount": 11100,
+                "callback_url": "zarin_link",
+                "referer": "/",
+                "date": "2020-06-27 10:22:02"
+            }
+        ]
+    }
+}
+```
