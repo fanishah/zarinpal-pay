@@ -252,3 +252,12 @@ try{
     }
 }
 ```
+
+<div align="center">
+  <br />
+  <a href="https://fanishah.ir">fanishah.ir</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://github.com/fanishah/zarinpal-payment/issues">Issues</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://npmjs.com/package/eazy-idpay">Eazy-IdPay</a>
+</div>
