@@ -28,6 +28,9 @@ class zarinpal_payment {
     private _isToman: boolean = false,
     private _isSandbox: boolean = false
   ) {
+    if (!_merchant || _merchant.length > 36 || _merchant.length < 36) {
+      throw Error("Merchant ID is invalid!");
+    }
     if (this._isSandbox) {
       this._requestLink =
         "https://sandbox.zarinpal.com/pg/v4/payment/request.json";
@@ -47,35 +50,65 @@ class zarinpal_payment {
     mobile,
     email,
   }: CreateType) {
-    const { data } = await axios.post(this._requestLink, {
-      merchant_id: this._merchant,
-      amount,
-      currency: this._currency,
-      description,
-      callback_url,
-      metadata: [mobile, email],
-    });
-    return {
-      data: {
-        ...data.data,
-        link: `${this._gateway}/${data.data.authority}`,
-      },
-      errors: [...data.errors],
-    };
+    if (!amount) {
+      throw Error("The value *Amount* is invalid!");
+    }
+    if (!description) {
+      throw Error("The value *Description* is invalid!");
+    }
+    if (!callback_url) {
+      throw Error("The value *Callback URL* is invalid!");
+    }
+    try {
+      const { data } = await axios.post(this._requestLink, {
+        merchant_id: this._merchant,
+        amount,
+        currency: this._currency,
+        description,
+        callback_url,
+        metadata: [mobile, email],
+      });
+      return {
+        data: {
+          ...data.data,
+          link: `${this._gateway}/${data.data.authority}`,
+        },
+        errors: [...data.errors],
+      };
+    } catch (err) {
+      console.log(err);
+      console.log("============= err =============");
+    }
   }
   async verify({ authority, amount }: VerifyType) {
-    const { data } = await axios.post(this._verifyLink, {
-      merchant_id: this._merchant,
-      amount,
-      authority,
-    });
-    return data;
+    if (!amount) {
+      throw Error("The value *Amount* is invalid!");
+    }
+    if (!authority) {
+      throw Error("The value *Authority* is invalid!");
+    }
+    try {
+      const { data } = await axios.post(this._verifyLink, {
+        merchant_id: this._merchant,
+        amount,
+        authority,
+      });
+      return data;
+    } catch (err) {
+      console.log(err);
+      console.log("============= err =============");
+    }
   }
   async unverified() {
-    const { data } = await axios.post(this._unVerifiedLink, {
-      merchant_id: this._merchant,
-    });
-    return data;
+    try {
+      const { data } = await axios.post(this._unVerifiedLink, {
+        merchant_id: this._merchant,
+      });
+      return data;
+    } catch (err) {
+      console.log(err);
+      console.log("============= err =============");
+    }
   }
 }
 
