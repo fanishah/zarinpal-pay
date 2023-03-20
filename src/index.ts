@@ -1,5 +1,16 @@
 import axios from "axios";
-import { CreateType, VerifyType } from "./types";
+
+interface CreateType {
+  amount: number;
+  description: string;
+  callback_url: string;
+  mobile?: string;
+  email?: string;
+}
+interface VerifyType {
+  amount: number;
+  authority: string;
+}
 
 class zarinpal_payment {
   private _requestLink: string =
