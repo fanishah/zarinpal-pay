@@ -1,6 +1,6 @@
 <div dir="rtl">
 <p align="center">
-<img src="https://s2.uupload.ir/files/zarinpal_cu8m.jpg" alt="Logo" height=170>
+<img src="https://s2.uupload.ir/files/4534_5enu.png" alt="Logo" height=170>
 <h1 align="center">ZarinPal Payment</h1>
 با استفاده از این پکیچ می توانید به صورت اسان از درگاه بانکی زرین پال در پروژه های Node.js خود استفاده کنید.
 </p>
