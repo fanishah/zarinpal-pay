@@ -12,7 +12,7 @@ interface VerifyType {
   authority: string;
 }
 
-class zarinpal_payment {
+class zarinpal_pay {
   private _requestLink: string =
     "https://api.zarinpal.com/pg/v4/payment/request.json";
   private _verifyLink: string =
@@ -96,10 +96,13 @@ class zarinpal_payment {
         amount,
         authority,
       });
+      if (data.errors) {
+        return data.errors
+      }
       return data;
     } catch (err) {
       console.log(err);
-      console.log("============= err =============");
+      console.log("============= Error =============");
     }
   }
   async unverified() {
@@ -107,27 +110,15 @@ class zarinpal_payment {
       const { data } = await axios.post(this._unVerifiedLink, {
         merchant_id: this._merchant,
       });
+      if (data.errors) {
+        return data.errors
+      }
       return data;
     } catch (err) {
       console.log(err);
-      console.log("============= err =============");
+      console.log("============= Error =============");
     }
   }
 }
 
-export default zarinpal_payment;
-
-const ss = new zarinpal_payment("5c2aca12-5b06-11e9-a7f1-000c295eb8fc")
-  .create({
-    amount: 20,
-    callback_url: "sss",
-    description: "s",
-  })
-  .then((ww) => {
-    console.log(ww);
-  })
-  .catch((err) => {
-    console.log(err);
-    console.log("========err=========");
-  });
-  
+export default zarinpal_pay;

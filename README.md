@@ -1,16 +1,26 @@
 <div dir="rtl">
 <p align="center">
-<img src="https://s2.uupload.ir/files/4534_5enu.png" alt="Logo" height=170>
-<h1 align="center">ZarinPal Payment</h1>
+<img src="https://s2.uupload.ir/files/4534_aeg.png" alt="Logo" height=170>
+<h1 align="center">ZarinPal Pay</h1>
 با استفاده از این پکیچ می توانید به صورت آسان از درگاه بانکی زرین پال در پروژه های Node.js خود استفاده کنید.
 </p>
+</div>
+
+<div align="center">
+  <br />
+  <a href="https://fanishah.ir">fanishah.ir</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://github.com/fanishah/zarinpal-payment/issues">Issues</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://npmjs.com/package/eazy-idpay">Eazy-IdPay</a>
+  <br />
 </div>
 
 # روش نصب
 </div>
 
 ```
-npm i zarinpal-payment
+npm i zarinpal-pay
 ```
 
 <div dir="rtl">
@@ -32,7 +42,7 @@ unverified() // ليست پرداخت هاي موفق اخیر
   </div>
   
 ```
-import  ZarinpalPayment from  "zarinpal-payment";
+import  ZarinpalPayment from  "zarinpal-pay";
 const zarinpal = new ZarinpalPayment (Merchant, isTomam ,isSandbox);
 ```
   <div dir="rtl">
@@ -252,12 +262,3 @@ try{
     }
 }
 ```
-
-<div align="center">
-  <br />
-  <a href="https://fanishah.ir">fanishah.ir</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://github.com/fanishah/zarinpal-payment/issues">Issues</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://npmjs.com/package/eazy-idpay">Eazy-IdPay</a>
-</div>

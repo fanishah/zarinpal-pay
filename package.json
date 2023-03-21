@@ -1,5 +1,5 @@
 {
-  "name": "zarinpal-payment",
+  "name": "zarinpal-pay",
   "version": "1.0.0",
   "description": "Node.js استفاده آسان و راحت از درگاه پرداخت زرین پال در",
   "author": "fanishah",
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fanishah/zarinpal-payment"
+    "url": "https://github.com/fanishah/zarinpal-pay"
   },
   "bugs": {
-    "url": "https://github.com/fanishah/zarinpal-payment/issues"
+    "url": "https://github.com/fanishah/zarinpal-pay/issues"
   },
-  "homepage": "https://npm.fanishah.ir/zarinpal-payment",
+  "homepage": "https://npm.fanishah.ir/zarinpal-pay",
   "license": "MIT",
   "keywords": [
     "zarinpal",
