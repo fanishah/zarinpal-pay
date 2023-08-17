@@ -6,13 +6,14 @@ interface CreateType {
   description?: string;
   mobile?: string;
   email?: string;
+  order_id?: string;
 }
 interface VerifyType {
   amount: number;
   authority: string;
 }
 
-class zarinpal_pay {
+export default class ZarinpalPayment {
   private _requestLink: string =
     "https://api.zarinpal.com/pg/v4/payment/request.json";
   private _verifyLink: string =
@@ -29,7 +30,7 @@ class zarinpal_pay {
     private _isSandbox: boolean = false
   ) {
     if (!_merchant || _merchant.length > 36 || _merchant.length < 36) {
-      throw new Error("Zarinpal Pay Error: Merchant ID is invalid!");
+      throw new Error("Zarinpal Pay --> Merchant ID is invalid!");
     }
     if (this._isSandbox) {
       this._requestLink =
@@ -51,13 +52,13 @@ class zarinpal_pay {
     email,
   }: CreateType) {
     if (!amount) {
-      throw new Error("Zarinpal Pay Error: The value *Amount* is invalid!");
+      throw new Error("Zarinpal Pay --> The value *Amount* is invalid!");
     }
     if (!description) {
-      throw new Error("Zarinpal Pay Error: The value *Description* is invalid!");
+      throw new Error("Zarinpal Pay --> The value *Description* is invalid!");
     }
     if (!callback_url) {
-      throw new Error("Zarinpal Pay Error: The value *Callback URL* is invalid!");
+      throw new Error("Zarinpal Pay --> The value *Callback URL* is invalid!");
     }
     try {
       const { data } = await axios.post(this._requestLink, {
@@ -69,7 +70,7 @@ class zarinpal_pay {
         metadata: [mobile, email],
       });
       if (data.errors?.length) {
-        throw new Error(`Zarinpal Pay Error: ${JSON.stringify(data.errors)}`);
+        throw new Error(`Zarinpal Pay --> ${JSON.stringify(data.errors)}`);
       }
       return {
         data: {
@@ -79,15 +80,15 @@ class zarinpal_pay {
         errors: data.errors,
       };
     } catch (err: any) {
-      throw new Error(`Zarinpal Pay Error: ${err}`);
+      throw new Error(`Zarinpal Pay --> ${err}`);
     }
   }
   async verify({ authority, amount }: VerifyType) {
     if (!amount) {
-      throw new Error("Zarinpal Pay Error: The value *Amount* is invalid!");
+      throw new Error("Zarinpal Pay --> The value *Amount* is invalid!");
     }
     if (!authority) {
-      throw new Error("Zarinpal Pay Error: The value *Authority* is invalid!");
+      throw new Error("Zarinpal Pay --> The value *Authority* is invalid!");
     }
     try {
       const { data } = await axios.post(this._verifyLink, {
@@ -96,11 +97,11 @@ class zarinpal_pay {
         authority,
       });
       if (data.errors?.length) {
-        throw new Error(`Zarinpal Pay Error: ${JSON.stringify(data.errors)}`);
+        throw new Error(`Zarinpal Pay --> ${JSON.stringify(data.errors)}`);
       }
       return data;
     } catch (err) {
-      throw new Error(`Zarinpal Pay Error: ${err}`);
+      throw new Error(`Zarinpal Pay --> ${err}`);
     }
   }
   async unverified() {
@@ -109,13 +110,11 @@ class zarinpal_pay {
         merchant_id: this._merchant,
       });
       if (data.errors?.length) {
-        throw new Error(`Zarinpal Pay Error: ${JSON.stringify(data.errors)}`);
+        throw new Error(`Zarinpal Pay --> ${JSON.stringify(data.errors)}`);
       }
       return data;
     } catch (err) {
-      throw new Error(`Zarinpal Pay Error: ${err}`);
+      throw new Error(`Zarinpal Pay --> ${err}`);
     }
   }
 }
-
-export default zarinpal_pay;
