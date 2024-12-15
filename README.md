@@ -5,7 +5,6 @@
 با استفاده از این پکیچ می توانید به صورت آسان از درگاه بانکی زرین پال در پروژه های Node.js خود استفاده کنید.
 </p>
 </div>
-
 <div align="center">
   <br />
   <a href="https://fanishah.ir">fanishah.ir</a>
@@ -48,7 +47,7 @@ unverified() // ليست پرداخت هاي موفق اخیر
   
 ```
 import  ZarinpalPayment from  "zarinpal-pay";
-const zarinpal = new ZarinpalPayment (Merchant, isTomam ,isSandbox);
+const zarinpal = new ZarinpalPayment (Merchant , Option);
 ```
   <div dir="rtl">
   
@@ -56,21 +55,27 @@ const zarinpal = new ZarinpalPayment (Merchant, isTomam ,isSandbox);
 
 - كد 36 كاراكتری اختصاصی برای احراز هویت درگاه
 
-**پارمتر isTomam (اختیاری)**
+**پارامتر Option (اختیاری)**
 
-- واحد پولی درگاه که صورت پیشفرض ریال می باشد.
-  > مقدار به صورت پیشفرض false می باشد و در صورت true واحد پولی درگاه تومان میشود.
-
-**پارمتر isSandbox (اختیاری)**
-
-- درگاه آزمایشی
-
-  > به صورت پیشفرض false می باشد در صورت true بودن درگاه به صورت آزمایشی می باشد.
+- این پارامتر شامل یک آبجت با دو ورودی isSandbox و isToman اختیاری می باشد
+  > وروردی isToman : واحد پولی درگاه که صورت پیشفرض ریال می باشد. مقدار به صورت پیشفرض false می باشد و در صورت true واحد پولی درگاه تومان میشود.
   >
-  > برای استفاده از درگاه آزمایشی باید برای قسمت Merchant کد 36 کارکتر دلخواه وارد نمایید
+  > وروردی isSandbox : برای فعال سازی درگاه آزمایشی به صورت پیشفرض false می باشد در صورت true بودن درگاه به صورت آزمایشی می باشد. برای استفاده از درگاه آزمایشی باید برای قسمت Merchant کد 36 کارکتر دلخواه مانند eaa46b01-819e-42ef-8a67-ba2bb7f69a32  وارد نمایید
+  </div>
+```
+new ZarinpalPayment(Merchant , { isToman : true, isSandbox : true })
+```
+  <div dir="rtl">
+  
+**درگاه آزمایشی**
+
+- برای فعال سازی درگاه آزمایشی باید مقدار  isSandbox که در آبجکت Option هست را true وارد کنید 
 
   </div>
-  <div dir="rtl">
+```
+new ZarinpalPayment("eaa46b01-819e-42ef-8a67-ba2bb7f69a32" , { isSandbox : true })
+```
+<div dir="rtl">
 
   # ایجاد تراکنش
 
@@ -82,20 +87,14 @@ const zarinpal = new ZarinpalPayment (Merchant, isTomam ,isSandbox);
   </div>
 
 ```
-try{
-
-	const createpay = await zarinpal.create({
+await zarinpal.create({
 	amount: 100000,
 	callback_url: "http://localhost:8080/callback",
 	mobile: "09339993377",
 	email: "my@site.com",
 	description: "توضیحات تراکنش",
 	order_id: "3010",
-	});
-
-}catch (err) {
-	console.log(err);
-}
+});
 ```
 
   <div dir="rtl">
@@ -153,15 +152,7 @@ try{
 </div>
 
 ```
-try{
-
-  const verifypay = await zarinpal.verify({authority , amount});
-
-}catch (err) {
-
-	console.log(err);
-
-}
+await zarinpal.verify({authority , amount});
 ```
 
 <div dir="rtl">
@@ -229,12 +220,14 @@ try{
 # متد unverified
 
 ممكن است شما نياز داشته باشيد كه متوجه شويد چه پرداخت هاي توسط وب سرويس شما به درستي انجام شده اما متد verify روي آنها اعمال نشده ، به عبارت ديگر اين متد ليست پرداخت هاي موفقي كه شما آنها را تصديق نكرده ايد را به شما نمايش مي دهد.
-
 </div>
+
+```
+await zarinpal.verify({authority , amount})
+```
+
 <p align="right">
-
 نمونه اطلاعات بازگشتی :
-
 </p>
 
 ```
@@ -249,13 +242,6 @@ try{
                 "callback_url": "https://golroz.com/vpay",
                 "referer": "https://golroz.com/test-form/",
                 "date": "2020-07-01 17:33:25"
-            },
-            {
-                "authority": "A00000000000000000000000000207296503",
-                "amount": 50500,
-                "callback_url": "https://golroz.com/vpay",
-                "referer": "https://golroz.com/test-form/",
-                "date": "2020-07-01 18:58:32"
             },
             {
                 "authority": "A00000000000000000000000000206873220",
