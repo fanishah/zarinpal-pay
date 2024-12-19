@@ -1,6 +1,6 @@
 {
   "name": "zarinpal-pay",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Node.js استفاده آسان و راحت از درگاه پرداخت زرین پال در پروژه های",
   "author": "fanishah",
   "main": "dist/index.js",

@@ -19,13 +19,13 @@ interface OptionsZarinpal {
 }
 
 export default class ZarinpalPayment {
-  private readonly _baseLink = "https://payment.zarinpal.com/pg/v4/payment";
+  private readonly _baseLinkPayment =
+    "https://payment.zarinpal.com/pg/v4/payment";
   private readonly _sandboxBaseLink =
     "https://sandbox.zarinpal.com/pg/v4/payment";
   private readonly _gateway = "https://payment.zarinpal.com/pg/StartPay";
   private readonly _sandboxGateway = "https://sandbox.zarinpal.com/pg/StartPay";
-  private _unVerifiedLink: string =
-    "https://api.zarinpal.com/pg/v4/payment/unVerified.json";
+  private readonly _baseLinkAPI = "https://api.zarinpal.com/pg/v4/payment";
   private _requestLink!: string;
   private _verifyLink!: string;
   private _currency: string = "IRR";
@@ -50,8 +50,8 @@ export default class ZarinpalPayment {
       this._requestLink = `${this._sandboxBaseLink}/request.json`;
       this._verifyLink = `${this._sandboxBaseLink}/verify.json`;
     } else {
-      this._requestLink = `${this._baseLink}/request.json`;
-      this._verifyLink = `${this._baseLink}/verify.json`;
+      this._requestLink = `${this._baseLinkPayment}/request.json`;
+      this._verifyLink = `${this._baseLinkPayment}/verify.json`;
     }
   }
   private _validateInput(
@@ -121,11 +121,43 @@ export default class ZarinpalPayment {
       throw new Error(`Zarinpal Pay --> ${err}`);
     }
   }
+  async inquiry(authority: string) {
+    try {
+      const { data } = await axios.post(`${this._baseLinkAPI}/inquiry.json`, {
+        merchant_id: this._merchant,
+        authority,
+      });
+      if (data.errors?.length) {
+        throw new Error(`Zarinpal Pay --> ${JSON.stringify(data.errors)}`);
+      }
+      return data.data;
+    } catch (err) {
+      throw new Error(`Zarinpal Pay --> ${err}`);
+    }
+  }
+
+  async reverse(authority: string) {
+    try {
+      const { data } = await axios.post(`${this._baseLinkAPI}/reverse.json`, {
+        merchant_id: this._merchant,
+        authority,
+      });
+      if (data.errors?.length) {
+        throw new Error(`Zarinpal Pay --> ${JSON.stringify(data.errors)}`);
+      }
+      return data.data;
+    } catch (err) {
+      throw new Error(`Zarinpal Pay --> ${err}`);
+    }
+  }
   async unverified() {
     try {
-      const { data } = await axios.post(this._unVerifiedLink, {
-        merchant_id: this._merchant,
-      });
+      const { data } = await axios.post(
+        `${this._baseLinkAPI}/unVerified.json`,
+        {
+          merchant_id: this._merchant,
+        }
+      );
       if (data.errors?.length) {
         throw new Error(`Zarinpal Pay --> ${JSON.stringify(data.errors)}`);
       }

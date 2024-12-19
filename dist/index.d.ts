@@ -16,11 +16,11 @@ interface OptionsZarinpal {
 }
 export default class ZarinpalPayment {
     private _merchant;
-    private readonly _baseLink;
+    private readonly _baseLinkPayment;
     private readonly _sandboxBaseLink;
     private readonly _gateway;
     private readonly _sandboxGateway;
-    private _unVerifiedLink;
+    private readonly _baseLinkAPI;
     private _requestLink;
     private _verifyLink;
     private _currency;
@@ -32,6 +32,8 @@ export default class ZarinpalPayment {
         data: any;
     }>;
     verify({ authority, amount }: VerifyType): Promise<any>;
+    inquiry(authority: string): Promise<any>;
+    reverse(authority: string): Promise<any>;
     unverified(): Promise<any>;
 }
 export {};
