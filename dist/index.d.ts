@@ -20,17 +20,15 @@ export default class ZarinpalPayment {
     private readonly _sandboxBaseLink;
     private readonly _gateway;
     private readonly _sandboxGateway;
-    private readonly _baseLinkAPI;
     private _requestLink;
     private _verifyLink;
     private _currency;
     private _isSandbox;
-    constructor(_merchant: string, { isToman, isSandbox }: OptionsZarinpal);
+    constructor(_merchant: string, options?: OptionsZarinpal);
     private _setLinks;
     private _validateInput;
-    create({ amount, description, callback_url, mobile, email, order_id, }: CreateType): Promise<{
-        data: any;
-    }>;
+    private _post;
+    create({ amount, callback_url, description, mobile, email, order_id, }: CreateType): Promise<any>;
     verify({ authority, amount }: VerifyType): Promise<any>;
     inquiry(authority: string): Promise<any>;
     reverse(authority: string): Promise<any>;
