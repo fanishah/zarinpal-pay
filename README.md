@@ -35,6 +35,8 @@ npm i zarinpal-pay
 create() // ایجاد تراکنش
 verify() // اعتبارسنجی تراکنش
 unverified() // ليست پرداخت هاي موفق اخیر
+inquiry() // استعلام وضعیت پرداخت
+reverse() // ریورس تراکنش
 ```
 
   <div dir="rtl">
