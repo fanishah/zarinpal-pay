@@ -11,8 +11,6 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://github.com/fanishah/zarinpal-pay/issues">Issues</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://npmjs.com/package/eazy-idpay">Eazy-IdPay</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://link.fanishah.ir/zarinpal-pay-exemple">نمونه کد</a>
   <br />
 </div>
@@ -104,15 +102,12 @@ const createTransaction = await zarinpal.create({
 
 ```
 {
-    "data":{
-        "code": 100,
-        "message": "Success",
-        "authority": "A00000000000000000000000000217885159",
-        "fee_type": "Merchant",
-        "fee": 100,
-        link:"https://payment.zarinpal.com/pg/StartPay/A00000000000000000000000000217885159"
-	},
-	"errors": []
+  authority: 'A000000000000000000000000000000812ny',
+  fee: 3000,
+  fee_type: 'Merchant',
+  code: 100,
+  message: 'Success',
+  link: 'https://payment.zarinpal.com/pg/StartPay/S000000000000000000000000000000812ny'
 }
 ```
 
@@ -126,9 +121,9 @@ const createTransaction = await zarinpal.create({
 
 ```
 {
+  message: 'The amount must be at least 1000.',
   code: -9,
-  message: 'The input params invalid, validation error.',
-  validations: [ { amount: 'The amount must be at least 1000.' } ]
+  validations: []
 }
 ```
 
@@ -193,16 +188,16 @@ const verifyTransaction = await zarinpal.verify({authority: "A000000000000000002
 
 ```
 {
-    "data": {
-        "code": 100,
-        "message": "Verified",
-        "card_hash": "1EBE3EBEBE35C7EC0F8D6EE4F2F859107A87822CA179BC9528767EA7B5489B69",
-        "card_pan": "502229******5995",
-        "ref_id": 201,
-        "fee_type": "Merchant",
-        "fee": 0
-    },
-    "errors": []
+  wages: null,
+  code: 100,
+  message: 'Paid',
+  card_hash: '0866A6EAEA5CB085E4CF6EF19296BF19647552DD5F96F1E530DB3AE61837EFE7',
+  card_pan: '999999******9999',
+  ref_id: 8768201,
+  fee_type: 'Merchant',
+  fee: 3000,
+  shaparak_fee: 1200,
+  order_id: null
 }
 ```
 
@@ -226,31 +221,91 @@ const verifyTransaction = await zarinpal.verify({authority: "A000000000000000002
 await zarinpal.verify({authority , amount})
 ```
 
-<p align="right">
-نمونه اطلاعات بازگشتی :
-</p>
+<div dir="rtl">
+
+# نمونه کد
+
+</div>
 
 ```
 {
-    "data": {
-        "code": "100",
-        "message": "Success",
-        "authorities": [
-            {
-                "authority": "A00000000000000000000000000207288780",
-                "amount": 50500,
-                "callback_url": "https://golroz.com/vpay",
-                "referer": "https://golroz.com/test-form/",
-                "date": "2020-07-01 17:33:25"
-            },
-            {
-                "authority": "A00000000000000000000000000206873220",
-                "amount": 11100,
-                "callback_url": "zarin_link",
-                "referer": "/",
-                "date": "2020-06-27 10:22:02"
-            }
-        ]
-    }
+  "code": "100",
+  "message": "Success",
+  "authorities": [
+      {
+        "authority": "A00000000000000000000000000207288780",
+        "amount": 50500,
+        "callback_url": "https://yoursite.com/vpay",
+        "referer": "https://yoursite.com/test-form/",
+        "date": "2025-09-06 17:33:25"
+      },
+      {
+        "authority": "A00000000000000000000000000206873220",
+        "amount": 11100,
+        "callback_url": "https://yoursite.com/zarin_link",
+        "referer": "/",
+        "date": "2025-09-01 10:22:02"
+      }
+  ]
 }
+```
+
+<p align="right">
+نمونه کد :
+</p>
+
+```
+const express = require("express");
+const ZarinpalPayment = require("zarinpal-pay");
+
+const zarinpal = new ZarinpalPayment("5e2wcz12-1111-1111-1111-000c295cg8fc", {
+  isToman: true,
+  isSandbox: true,
+});
+
+const app = express();
+const port = 3000;
+
+app.get("/create", async (req, res) => {
+  try {
+    const createTransaction = await zarinpal.create({
+      amount: 10000,
+      callback_url: "http://localhost:3000/verify",
+      mobile: "09339993377",
+      email: "my@site.com",
+      description: "توضیحات تراکنش",
+      order_id: "3010",
+    });
+    if (createTransaction?.code !== 100) {
+      return res.json("خطا در ایجاد تراکنش");
+    }
+    res.redirect(createTransaction?.link);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+app.get("/verify", async (req, res) => {
+  try {
+    const { Authority, Status } = req.query;
+    if (Status == "NOK") {
+      return res.json({ message: "پرداخت لغو شد" });
+    }
+    const verifyTransaction = await zarinpal.verify({
+      authority: Authority,
+      amount: 10000,
+    });
+
+    if (verifyTransaction?.code == 101) {
+      return res.json({ message: "پرداخت قبلا تایید شده است" });
+    }
+    res.json(verifyTransaction);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+});
 ```
