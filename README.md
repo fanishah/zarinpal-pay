@@ -248,6 +248,99 @@ await zarinpal.verify({authority , amount})
 }
 ```
 
+
+
+ <div dir="rtl">
+
+# متد inquiry
+
+این متد فقط وضعیت تراکنش مورد نظر شما را اعلام میکند
+
+</div>
+
+```
+await zarinpal.inquiry(authority)
+```
+
+<p align="right">
+پاسخ برگشتی توسط این درخواست به شرح زیر است :
+</p>
+
+```
+{
+    "status": "PAID",
+    "code": 100,
+    "message": "Success"
+}
+```
+
+<p align="right">
+وضعیت تراکنش (مقدار status) که ممکن است یکی از این حالات باشد :
+</p>
+
+| شرح  | مقدار     |
+| ------ | --------- |
+| وریفای شده  | VERIFIED |
+| پرداخت شده (وریفای نشده)  | PAID |
+| درحال پرداخت  | IN_BANK |
+| ناموفق (تکمیل نشده)  | FAILED |
+| تراکنش ریورس شده  | REVERSED |
+
+
+
+
+<p align="right">
+نمونه خطا  :
+</p>
+
+```
+{
+  "authority": [
+    "Invalid authority.", // آتوریتی اشتباه
+    "-54"
+  ]
+}
+```
+
+
+
+
+ <div dir="rtl">
+
+# متد reverse
+
+با استفاده از این متد میتوانید تراکنش های موفقی که از پرداخت آنها نهایت 30 دقیقه گذشته باشد را بدون کارمزد به حساب خریدار سریعا استرداد بزنید، جهت استعلام وضعیت تراکنش در 30 دقیقه اول از متد استعلام وضعیت تراکنش یعنی inquiry() استفاده کنید.
+</div>
+
+```
+await zarinpal.reverse(authority)
+```
+
+<p align="right">
+پاسخ برگشتی توسط این درخواست به شرح زیر است :
+</p>
+
+```
+{
+    "code": 100,
+    "message": "Reversed"
+}
+```
+
+<p align="right">
+نمونه خطا  :
+</p>
+
+```
+{
+    "message": "Session can not be reversed with bank.",
+    "code": -60,
+    "validations": []
+}
+```
+
+
+
  <div dir="rtl">
 
 # نمونه کد
