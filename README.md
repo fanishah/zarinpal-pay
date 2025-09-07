@@ -221,11 +221,9 @@ const verifyTransaction = await zarinpal.verify({authority: "A000000000000000002
 await zarinpal.verify({authority , amount})
 ```
 
-<div dir="rtl">
-
-# نمونه کد
-
-</div>
+<p align="right">
+نمونه اطلاعات بازگشتی :
+</p>
 
 ```
 {
@@ -250,9 +248,9 @@ await zarinpal.verify({authority , amount})
 }
 ```
 
-<p align="right">
-نمونه کد :
-</p>
+ <div dir="rtl">
+
+# نمونه کد
 
 ```
 const express = require("express");
