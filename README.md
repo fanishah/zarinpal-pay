@@ -252,6 +252,8 @@ await zarinpal.verify({authority , amount})
 
 # نمونه کد
 
+</div>
+
 ```
 const express = require("express");
 const ZarinpalPayment = require("zarinpal-pay");
