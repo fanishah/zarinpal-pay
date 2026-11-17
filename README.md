@@ -7,11 +7,11 @@
 </div>
 <div align="center">
   <br />
-  <a href="https://fanishah.ir">fanishah.ir</a>
+  <a href="https://npm.ifattah.ir">npm.ifattah.ir</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://github.com/fanishah/zarinpal-pay/issues">Issues</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://link.fanishah.ir/zarinpal-pay-exemple">نمونه کد</a>
+  <a href="https://npm.ifattah.ir/zarinpal-pay/code-exemple">نمونه کد</a>
   <br />
 </div>
 
