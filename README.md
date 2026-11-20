@@ -7,7 +7,7 @@
 </div>
 <div align="center">
   <br />
-  <a href="https://npm.ifattah.ir">npm.ifattah.ir</a>
+  <a href="https://ifattah.ir">ifattah.ir</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://github.com/fanishah/zarinpal-pay/issues">Issues</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
