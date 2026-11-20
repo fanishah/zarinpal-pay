@@ -1,9 +1,12 @@
 {
   "name": "zarinpal-pay",
-  "version": "3.0.0",
-  "description": "Node.js استفاده آسان و راحت از درگاه پرداخت زرین پال در پروژه های",
+  "version": "3.1.1",
+  "description": "an open-source TypeScript-powered NPM package designed to simplify integrating the Zarinpal payment gateway into Node.js applications.",
   "author": "fanishah",
   "main": "dist/index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
@@ -26,11 +29,6 @@
     "gateway"
   ],
   "devDependencies": {
-    "@types/axios": "^0.14.4",
-    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2"
-  },
-  "dependencies": {
-    "axios": "^1.11.0"
   }
 }

@@ -8,11 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 class ZarinpalPayment {
     constructor(_merchant, options = {}) {
         this._merchant = _merchant;
@@ -23,7 +19,9 @@ class ZarinpalPayment {
         this._currency = "IRR";
         this._isSandbox = false;
         this._setLinks = () => {
-            const base = this._isSandbox ? this._sandboxBaseLink : this._baseLinkPayment;
+            const base = this._isSandbox
+                ? this._sandboxBaseLink
+                : this._baseLinkPayment;
             this._requestLink = `${base}/request.json`;
             this._verifyLink = `${base}/verify.json`;
         };
@@ -44,15 +42,26 @@ class ZarinpalPayment {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c, _d;
             try {
-                const { data } = yield axios_1.default.post(url, payload);
-                if ((_a = data.errors) === null || _a === void 0 ? void 0 : _a.length) {
-                    throw new Error(JSON.stringify(data.errors));
+                const response = yield fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+                const data = yield response.json();
+                if (!response.ok || (data.errors && data.errors.length > 0)) {
+                    throw {
+                        response: {
+                            data: data,
+                        },
+                    };
                 }
-                return (_b = data.data) !== null && _b !== void 0 ? _b : data;
+                return (_a = data.data) !== null && _a !== void 0 ? _a : data;
             }
             catch (err) {
-                throw (_d = (_c = err === null || err === void 0 ? void 0 : err.response) === null || _c === void 0 ? void 0 : _c.data) === null || _d === void 0 ? void 0 : _d.errors;
-                ;
+                throw (_d = (_c = (_b = err === null || err === void 0 ? void 0 : err.response) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.errors) !== null && _d !== void 0 ? _d : err;
             }
         });
     }
@@ -111,4 +120,4 @@ class ZarinpalPayment {
         });
     }
 }
-module.exports = ZarinpalPayment;
+exports.default = ZarinpalPayment;

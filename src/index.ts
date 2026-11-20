@@ -1,5 +1,3 @@
-import axios, { AxiosResponse } from "axios";
-
 interface CreateType {
   amount: number;
   callback_url: string;
@@ -26,8 +24,10 @@ type Metadata = {
 };
 
 export default class ZarinpalPayment {
-  private readonly _baseLinkPayment = "https://payment.zarinpal.com/pg/v4/payment";
-  private readonly _sandboxBaseLink = "https://sandbox.zarinpal.com/pg/v4/payment";
+  private readonly _baseLinkPayment =
+    "https://payment.zarinpal.com/pg/v4/payment";
+  private readonly _sandboxBaseLink =
+    "https://sandbox.zarinpal.com/pg/v4/payment";
   private readonly _gateway = "https://payment.zarinpal.com/pg/StartPay";
   private readonly _sandboxGateway = "https://sandbox.zarinpal.com/pg/StartPay";
   private _requestLink!: string;
@@ -35,7 +35,10 @@ export default class ZarinpalPayment {
   private _currency: string = "IRR";
   private _isSandbox: boolean = false;
 
-  constructor(private _merchant: string, options: OptionsZarinpal = {}) {
+  constructor(
+    private _merchant: string,
+    options: OptionsZarinpal = {},
+  ) {
     const { isToman = false, isSandbox = false } = options;
     if (!_merchant || _merchant.length !== 36) {
       throw new Error("Zarinpal Pay --> Merchant ID is invalid!");
@@ -46,7 +49,9 @@ export default class ZarinpalPayment {
   }
 
   private _setLinks = () => {
-    const base = this._isSandbox ? this._sandboxBaseLink : this._baseLinkPayment;
+    const base = this._isSandbox
+      ? this._sandboxBaseLink
+      : this._baseLinkPayment;
     this._requestLink = `${base}/request.json`;
     this._verifyLink = `${base}/verify.json`;
   };
@@ -59,13 +64,28 @@ export default class ZarinpalPayment {
 
   private async _post(url: string, payload: any) {
     try {
-      const { data } = await axios.post(url, payload);
-      if (data.errors?.length) {
-        throw new Error(JSON.stringify(data.errors));
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || (data.errors && data.errors.length > 0)) {
+        throw {
+          response: {
+            data: data,
+          },
+        };
       }
+
       return data.data ?? data;
     } catch (err: any) {
-      throw err?.response?.data?.errors;;
+      throw err?.response?.data?.errors ?? err;
     }
   }
 
